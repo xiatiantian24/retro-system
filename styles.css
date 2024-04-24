@@ -55,12 +55,16 @@ img {
   box-shadow: 4px 4px black;
 }
 
-#menu .modeless-dialog {
+/* #menu .modeless-dialog {
   padding: 1.5rem 1rem 0.5rem;;
-}
+} */
+
+/* #menu .btn {
+  margin-top: 10px;
+  width: 100%;
+} */
 
 #btn-wrap {
   display: block;
-  
 }
 

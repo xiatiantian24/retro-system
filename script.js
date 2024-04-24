@@ -131,86 +131,225 @@ var Split = function () {
     "powerpoint6.png",
   ];
 
- // Function to update background image of active div
- this.updateActiveDivBackground = function (direction) {
+  // Function to update background image of active div
+  this.updateActiveDivBackground = function (direction) {
     var activeDiv = document.querySelector(".active");
     if (activeDiv) {
+      var currentImageUrl = activeDiv.style.backgroundImage.split('"')[1];
+      var currentIndex = this.imageUrls.indexOf(currentImageUrl);
+      var newIndex;
+
+      if (direction === "next") {
+        newIndex = (currentIndex + 1) % this.imageUrls.length;
+      } else if (direction === "prev") {
+        newIndex =
+          (currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
+      }
+
+      activeDiv.style.backgroundImage =
+        "url('" + this.imageUrls[newIndex] + "')";
+    }
+
+    // Function to update entire row to the next or previous version
+    this.updateRow = function (direction) {
+      var activeDiv = document.querySelector(".active");
+      if (activeDiv) {
+        var currentRow = activeDiv.id.split("_")[1]; // Get row number from div ID
+        var rowDivs = document.querySelectorAll(
+          '[id^="div_' + currentRow + '_"]'
+        );
+        var imageUrls = Array.from(rowDivs, function (div) {
+          return div.style.backgroundImage.split('"')[1];
+        });
+        var isSameUrl = imageUrls.every(function (url) {
+          return url === imageUrls[0];
+        });
+
+        if (isSameUrl) {
+          var currentIndex = loadSplit.imageUrls.indexOf(imageUrls[0]);
+          var newIndex;
+
+          if (direction === "next") {
+            newIndex = (currentIndex + 1) % loadSplit.imageUrls.length;
+          } else if (direction === "prev") {
+            newIndex =
+              (currentIndex - 1 + loadSplit.imageUrls.length) %
+              loadSplit.imageUrls.length;
+          }
+
+          rowDivs.forEach(function (div) {
+            div.style.backgroundImage =
+              "url('" + loadSplit.imageUrls[newIndex] + "')";
+          });
+        } else {
+          var targetIndex;
+          if (direction === "next") {
+            targetIndex = Math.max.apply(
+              null,
+              imageUrls.map(function (url) {
+                return loadSplit.imageUrls.indexOf(url);
+              })
+            );
+          } else if (direction === "prev") {
+            targetIndex = Math.min.apply(
+              null,
+              imageUrls.map(function (url) {
+                return loadSplit.imageUrls.indexOf(url);
+              })
+            );
+          }
+
+          rowDivs.forEach(function (div) {
+            div.style.backgroundImage =
+              "url('" + loadSplit.imageUrls[targetIndex] + "')";
+          });
+        }
+      }
+    };
+
+    // Function to update entire column to the next or previous version
+    this.updateColumn = function (direction) {
+      var activeDiv = document.querySelector(".active");
+      if (activeDiv) {
+        var currentColumn = activeDiv.id.split("_")[2]; // Get column number from div ID
+        var columnDivs = document.querySelectorAll(
+          '[id$="_' + currentColumn + '"]'
+        );
+        var imageUrls = Array.from(columnDivs, function (div) {
+          return div.style.backgroundImage.split('"')[1];
+        });
+        var isSameUrl = imageUrls.every(function (url) {
+          return url === imageUrls[0];
+        });
+
+        if (isSameUrl) {
+          var currentIndex = loadSplit.imageUrls.indexOf(imageUrls[0]);
+          var newIndex;
+
+          if (direction === "next") {
+            newIndex = (currentIndex + 1) % loadSplit.imageUrls.length;
+          } else if (direction === "prev") {
+            newIndex =
+              (currentIndex - 1 + loadSplit.imageUrls.length) %
+              loadSplit.imageUrls.length;
+          }
+
+          columnDivs.forEach(function (div) {
+            div.style.backgroundImage =
+              "url('" + loadSplit.imageUrls[newIndex] + "')";
+          });
+        } else {
+          var targetIndex;
+          if (direction === "next") {
+            targetIndex = Math.max.apply(
+              null,
+              imageUrls.map(function (url) {
+                return loadSplit.imageUrls.indexOf(url);
+              })
+            );
+          } else if (direction === "prev") {
+            targetIndex = Math.min.apply(
+              null,
+              imageUrls.map(function (url) {
+                return loadSplit.imageUrls.indexOf(url);
+              })
+            );
+          }
+
+          columnDivs.forEach(function (div) {
+            div.style.backgroundImage =
+              "url('" + loadSplit.imageUrls[targetIndex] + "')";
+          });
+        }
+      }
+    };
+
+    // Function to update entire canvas to the next or previous version
+    this.updateCanvas = function (direction) {
+      var divs = document.querySelectorAll(".split > div");
+      var imageUrls = Array.from(divs, function (div) {
+        return div.style.backgroundImage.split('"')[1];
+      });
+      var isSameUrl = imageUrls.every(function (url) {
+        return url === imageUrls[0];
+      });
+
+      if (isSameUrl) {
+        var currentIndex = loadSplit.imageUrls.indexOf(imageUrls[0]);
+        var newIndex;
+
+        if (direction === "next") {
+          newIndex = (currentIndex + 1) % loadSplit.imageUrls.length;
+        } else if (direction === "prev") {
+          newIndex =
+            (currentIndex - 1 + loadSplit.imageUrls.length) %
+            loadSplit.imageUrls.length;
+        }
+
+        divs.forEach(function (div) {
+          div.style.backgroundImage =
+            "url('" + loadSplit.imageUrls[newIndex] + "')";
+        });
+      } else {
+        var targetIndex;
+        if (direction === "next") {
+          targetIndex = Math.max.apply(
+            null,
+            imageUrls.map(function (url) {
+              return loadSplit.imageUrls.indexOf(url);
+            })
+          );
+        } else if (direction === "prev") {
+          targetIndex = Math.min.apply(
+            null,
+            imageUrls.map(function (url) {
+              return loadSplit.imageUrls.indexOf(url);
+            })
+          );
+        }
+
+        divs.forEach(function (div) {
+          div.style.backgroundImage =
+            "url('" + loadSplit.imageUrls[targetIndex] + "')";
+        });
+      }
+    };
+
+    // Function to check button visibility based on image URL of blocks
+    this.checkButtonVisibility = function () {
+      var activeDiv = document.querySelector(".active");
+      if (activeDiv) {
         var currentImageUrl = activeDiv.style.backgroundImage.split('"')[1];
         var currentIndex = this.imageUrls.indexOf(currentImageUrl);
-        var newIndex;
 
-        if (direction === "next") {
-            newIndex = (currentIndex + 1) % this.imageUrls.length;
-        } else if (direction === "prev") {
-            newIndex = (currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
+        // Hide/show previous buttons
+        if (currentIndex === -1 || currentIndex === 0) {
+          prevBlockButton.style.display = "none";
+          prevRowButton.style.display = "none";
+          prevColumnButton.style.display = "none";
+          prevCanvasButton.style.display = "none";
+        } else {
+          prevBlockButton.style.display = "block";
+          prevRowButton.style.display = "block";
+          prevColumnButton.style.display = "block";
+          prevCanvasButton.style.display = "block";
         }
 
-        activeDiv.style.backgroundImage = "url('" + this.imageUrls[newIndex] + "')";
-    }
-};
-
-// Function to update entire row to the next or previous version
-this.updateRow = function (direction) {
-    var activeDiv = document.querySelector(".active");
-    if (activeDiv) {
-        var currentRow = activeDiv.id.split("_")[1]; // Get row number from div ID
-        var rowDivs = document.querySelectorAll('[id^="div_' + currentRow + '_"]');
-        rowDivs.forEach(function (div) {
-            var currentImageUrl = div.style.backgroundImage.split('"')[1];
-            var currentIndex = loadSplit.imageUrls.indexOf(currentImageUrl); // Use loadSplit to access imageUrls
-            var newIndex;
-
-            if (direction === "next") {
-                newIndex = (currentIndex + 1) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
-            } else if (direction === "prev") {
-                newIndex = (currentIndex - 1 + loadSplit.imageUrls.length) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
-            }
-
-            div.style.backgroundImage = "url('" + loadSplit.imageUrls[newIndex] + "')"; // Use loadSplit to access imageUrls
-        });
-    }
-};
-
-// Function to update entire column to the next or previous version
-this.updateColumn = function (direction) {
-    var activeDiv = document.querySelector(".active");
-    if (activeDiv) {
-        var currentColumn = activeDiv.id.split("_")[2]; // Get column number from div ID
-        var columnDivs = document.querySelectorAll('[id$="_' + currentColumn + '"]');
-        columnDivs.forEach(function (div) {
-            var currentImageUrl = div.style.backgroundImage.split('"')[1];
-            var currentIndex = loadSplit.imageUrls.indexOf(currentImageUrl); // Use loadSplit to access imageUrls
-            var newIndex;
-
-            if (direction === "next") {
-                newIndex = (currentIndex + 1) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
-            } else if (direction === "prev") {
-                newIndex = (currentIndex - 1 + loadSplit.imageUrls.length) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
-            }
-
-            div.style.backgroundImage = "url('" + loadSplit.imageUrls[newIndex] + "')"; // Use loadSplit to access imageUrls
-        });
-    }
-};
-
-// Function to update entire canvas to the next or previous version
-this.updateCanvas = function (direction) {
-    var divs = document.querySelectorAll(".split > div");
-    divs.forEach(function (div) {
-        var currentImageUrl = div.style.backgroundImage.split('"')[1];
-        var currentIndex = loadSplit.imageUrls.indexOf(currentImageUrl); // Use loadSplit to access imageUrls
-        var newIndex;
-
-        if (direction === "next") {
-            newIndex = (currentIndex + 1) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
-        } else if (direction === "prev") {
-            newIndex = (currentIndex - 1 + loadSplit.imageUrls.length) % loadSplit.imageUrls.length; // Use loadSplit to access imageUrls
+        // Hide/show next buttons
+        if (currentIndex === -1 || currentIndex === this.imageUrls.length - 1) {
+          nextBlockButton.style.display = "none";
+          nextRowButton.style.display = "none";
+          nextColumnButton.style.display = "none";
+          nextCanvasButton.style.display = "none";
+        } else {
+          nextBlockButton.style.display = "block";
+          nextRowButton.style.display = "block";
+          nextColumnButton.style.display = "block";
+          nextCanvasButton.style.display = "block";
         }
-
-        div.style.backgroundImage = "url('" + loadSplit.imageUrls[newIndex] + "')"; // Use loadSplit to access imageUrls
-    });
-};
-
+      }
+    };
+  };
 };
 window.addEventListener("load", function () {
   loadSplit = new Split();
@@ -218,35 +357,43 @@ window.addEventListener("load", function () {
 });
 
 prevBlockButton.addEventListener("click", function () {
-    loadSplit.updateActiveDivBackground("prev");
+  loadSplit.updateActiveDivBackground("prev");
+  loadSplit.checkButtonVisibility();
 });
 
 prevRowButton.addEventListener("click", function () {
-    loadSplit.updateRow("prev");
+  loadSplit.updateRow("prev");
+  loadSplit.checkButtonVisibility();
 });
 
 prevColumnButton.addEventListener("click", function () {
-    loadSplit.updateColumn("prev");
+  loadSplit.updateColumn("prev");
+  loadSplit.checkButtonVisibility();
 });
 
 prevCanvasButton.addEventListener("click", function () {
-    loadSplit.updateCanvas("prev");
+  loadSplit.updateCanvas("prev");
+  loadSplit.checkButtonVisibility();
 });
 
 nextBlockButton.addEventListener("click", function () {
-    loadSplit.updateActiveDivBackground("next");
+  loadSplit.updateActiveDivBackground("next");
+  loadSplit.checkButtonVisibility();
 });
 
 nextRowButton.addEventListener("click", function () {
-    loadSplit.updateRow("next");
+  loadSplit.updateRow("next");
+  loadSplit.checkButtonVisibility();
 });
 
 nextColumnButton.addEventListener("click", function () {
-    loadSplit.updateColumn("next");
+  loadSplit.updateColumn("next");
+  loadSplit.checkButtonVisibility();
 });
 
 nextCanvasButton.addEventListener("click", function () {
-    loadSplit.updateCanvas("next");
+  loadSplit.updateCanvas("next");
+  loadSplit.checkButtonVisibility();
 });
 
 //event listener DOMContentloaded = html finishes loading
