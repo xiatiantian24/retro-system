@@ -55,9 +55,9 @@ img {
   box-shadow: 4px 4px black;
 }
 
-/* #menu .modeless-dialog {
-  padding: 1.5rem 1rem 0.5rem;;
-} */
+#menu .modeless-dialog {
+  padding: 1.5rem 1rem 0.5rem;
+}
 
 /* #menu .btn {
   margin-top: 10px;
@@ -67,4 +67,3 @@ img {
 #btn-wrap {
   display: block;
 }
-

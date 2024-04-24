@@ -3,6 +3,7 @@ var loadSplit;
 var menuX, menuY;
 var menu = document.getElementById("menu");
 var menuText = document.getElementById("menu-text");
+var currentUrlIndex = 0;
 
 const powerpointButton = document.getElementById("powerpoint-button");
 const wordButton = document.getElementById("word-button");
@@ -78,6 +79,7 @@ var Split = function () {
 
   this.createDivs();
 
+  // Function to handle block activation
   this.toggleActive = function (div) {
     if (this.currentActiveDiv !== null && this.currentActiveDiv !== div) {
       this.currentActiveDiv.classList.remove("active");
@@ -90,17 +92,17 @@ var Split = function () {
     menuY = rect.top + rect.height;
 
     if (rect.left + rect.width > this.width - (2 * this.width) / this.gridX) {
-      menuX -= 500; //special case for the first two columns from the right
+      menuX -= 550; //special case for the first two columns from the right
     }
 
     menu.style.left = menuX + "px";
     menu.style.top = menuY + "px";
 
-    // Update text based on the clicked block's coordinates
-    var divName = div.getAttribute("id");
-    var newText = this.textMappings[divName] || "";
-    var menuText = document.getElementById("menu-text");
-    menuText.textContent = newText;
+    // Get the URL index of the active div and update the global variable
+    currentUrlIndex = parseInt(div.dataset.urlIndex) || 0;
+
+    // Update menu text based on the URL index
+    this.updateMenuText(currentUrlIndex);
 
     if (div.classList.contains("active")) {
       menu.style.visibility = "visible";
@@ -129,7 +131,38 @@ var Split = function () {
     "powerpoint4.png",
     "powerpoint5.png",
     "powerpoint6.png",
+    "powerpoint7.png",
+    "powerpoint8.png",
   ];
+
+  this.updateMenuText = function (index) {
+    var menuText = document.getElementById("menu-text");
+    if (index === 0) {
+      menuText.innerHTML =
+        "<span style='font-weight: bold;'>November 1984: </span> <br> PowerPoint 1.0 (Macintosh) <br> <br> <span style='font-weight: bold;'>Major updates: </span> The first 10.000 copies of the first version of PowerPoint for Macintosh shipped from manufacturing by Forethought Inc. It had a black-and-white user interface and 9 menus.";
+    } else if (index === 1) {
+      menuText.innerHTML =
+        "<span style='font-weight: bold;'>May 1990: </span> <br> First Windows version of PowerPoint  <br> <br> <span style='font-weight: bold;'>Major updates: </span> Almost 3 years later, the presentation software was finally released for Windows PCs. It was using the same version number as the current Macintosh variant (2.0).";
+    } else if (index === 2) {
+      menuText.innerHTML =
+        "<span style='font-weight: bold;'>September 1990:  </span> <br> PowerPoint 3.0 <br> <br> <span style='font-weight: bold;'>Major updates: </span> Most of the features we use today were created for MS PowerPoint 3.0 – including audio, video, presentation templates, and full support for TrueType fonts. This version was the one to come up with slide transitions.";
+    } else if (index === 3) {
+      menuText.innerHTML =
+        "<span style='font-weight: bold;'>October 1994: </span> <br> PowerPoint 4.0 <br> <br> <span style='font-weight: bold;'>Major updates: </span> The new version included among others: Word tables, rehearsal mode, hidden slides. Moreover, Microsoft first introduced a standard Microsoft Office look and feel (shared with Word and Excel), with status bar, toolbars and tooltips.";
+    } else if (index === 4) {
+      menuText.innerHTML =
+        "<span style='font-weight: bold;'>January 2007: </span> <br> PowerPoint 2007 <br> <br> <span style='font-weight: bold;'>Major updates: </span> It brought a new user interface (a changeable ribbon of tools across the top to replace menus and toolbars), SmartArt graphics, many graphical improvements in text and drawing, improved Presenter View and widescreen slide formats.";
+    } else if (index === 5) {
+        menuText.innerHTML =
+        "<span style='font-weight: bold;'>June 2010: </span> <br> PowerPoint 2010 <br> <br> <span style='font-weight: bold;'>Major updates: </span> This release added sections within presentations, a reading view, save as video, insert video from web, embedding video and audio as well as enhanced editing for video and for pictures.";    
+    } else if (index === 6) {
+        menuText.innerHTML =
+        "<span style='font-weight: bold;'>January 2013: </span> <br> PowerPoint 2013 <br> <br> <span style='font-weight: bold;'>Major updates: </span> The first time ever, this version allows online collaboration by multiple authors. It also included user interface redesigned for multi-touch screens.";   
+    } else if (index === 7) {
+        menuText.innerHTML =
+        "<span style='font-weight: bold;'>September 2018:  </span> <br> PowerPoint 2019 <br> <br> <span style='font-weight: bold;'>Major updates: </span> New features included morph transition, inserting 3D models and SVG icons and a handy Zoom feature.";  
+    }
+  };
 
   // Function to update background image of active div
   this.updateActiveDivBackground = function (direction) {
@@ -148,6 +181,10 @@ var Split = function () {
 
       activeDiv.style.backgroundImage =
         "url('" + this.imageUrls[newIndex] + "')";
+
+      activeDiv.dataset.urlIndex = newIndex;
+
+      this.updateMenuText(newIndex);
     }
 
     // Function to update entire row to the next or previous version
@@ -204,6 +241,8 @@ var Split = function () {
               "url('" + loadSplit.imageUrls[targetIndex] + "')";
           });
         }
+
+        this.updateMenuText(newIndex);
       }
     };
 
@@ -261,6 +300,8 @@ var Split = function () {
               "url('" + loadSplit.imageUrls[targetIndex] + "')";
           });
         }
+
+        this.updateMenuText(newIndex);
       }
     };
 
@@ -313,6 +354,7 @@ var Split = function () {
             "url('" + loadSplit.imageUrls[targetIndex] + "')";
         });
       }
+      this.updateMenuText(newIndex);
     };
 
     // Function to check button visibility based on image URL of blocks
