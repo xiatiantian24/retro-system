@@ -10,20 +10,22 @@ body {
 }
 
 .split {
-  width: 750px;
-  height: 468px;
   position: relative;
   top: 0;
   left: 0;
-  /* transform: translate(-50%, -50%); */
-  perspective: 400px;
+  width: 1200px;
+  height: 800px;
+  /* perspective: 400px; */
   cursor: pointer;
 }
 
 img {
-  height: auto;
-  width: 100%;
-  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 
 .split div {
@@ -41,16 +43,24 @@ img {
 
 }
 
-.split div .active {
-  div {
-    opacity: 1;
-    border: 1px solid white;
-    transform: rotate(0deg) translateY(0);
-  }
+.split .active {
+  z-index: 100;
+  border: 2px solid black;
+  box-shadow: 4px 4px black;
+  padding: 10px;
+  
 }
 
-.btn {
-  box-sizing:inherit;
+#menu {
+  box-shadow: 4px 4px black;
 }
 
+#menu .modeless-dialog {
+  padding: 1.5rem 1rem 0.5rem;;
+}
+
+#btn-wrap {
+  display: block;
+  
+}
 

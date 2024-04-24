@@ -9,35 +9,99 @@
     <link rel="stylesheet" href="https://unpkg.com/@sakun/system.css" />
   </head>
   <body>
-    <div class="window" style="width: 90vw; height: 95vh; margin: auto;">
+    <div class="window" style="width: 90vw; height: fit-content; margin: auto">
       <div class="title-bar">
         <button aria-label="Close" class="close hidden"></button>
         <h1 class="title">Retro Office Archive</h1>
         <button aria-label="Resize" class="resize hidden"></button>
       </div>
       <div class="details-bar">
-        <span>Welcome to an archive of the history of <button class="btn btn-default">PowerPoint</button>
-          <button class="btn">Word</button>
-      <button class="btn">Excel</button>! Click to navigate around.</span> 
-  
+        <span
+          >Welcome to an archive of the history of
+          <button class="btn btn-default" id="powerpoint-button">
+            PowerPoint
+          </button>
+          <button class="btn" id="word-button">Word</button>
+          <button class="btn" id="excel-button">Excel</button>! Click to
+          navigate around.</span
+        >
       </div>
       <div class="separator"></div>
 
       <div class="modeless-dialog">
         <div class="split" id="ver1">
-          <img id="img1"
-            src="https://pbs.twimg.com/media/GH0_z0EWIAA7W4I?format=png&name=900x900"
-          />
+          <img id="img" src="powerpoint1.png" />
         </div>
       </div>
+    </div>
+    <div
+      class="standard-dialog"
+      id="description"
+      style="width: 30rem; margin: auto; margin-top: 20vh"
+    >
+      <h4 class="dialog-text">
+        This project was developed by Ray Xia with help from Lucas Drummond in
+        Advance Interaction in the Spring of 2024. <br />
+        CSS Library credit to
+        <a href="https://github.com/sakofchit/system.css">Sajifcgut</a>.
+      </h4>
+      <p class="dialog-text">&copy; Ray Xia</p>
+    </div>
 
-     
+    <div
+      id="menu"
+      class="window"
+      style="
+        position: absolute;
+        width: 25rem;
+        height: fit-content;
+        visibility: hidden;
+        z-index: 10000;
+      "
+    >
+      <div class="title-bar">
+        <button aria-label="Close" class="close"></button>
+        <h1 class="title">Menu</h1>
+        <button aria-label="Resize" disabled class="hidden"></button>
+      </div>
+      <div class="separator"></div>
+
+      <div class="modeless-dialog" id="menu-text" style="font-size: 1rem">
+        Error. Click on a block to try again.
+      </div>
+      <section
+        class="field-row"
+        style="justify-content: space-between; margin: 1rem"
+        id="btn-wrap"
+      >
+      <button class="btn" style="font-size: 1rem" id="prev-block">
+        Roll back block to the previous version
+      </button>
+      <button class="btn" style="font-size: 1rem" id="prev-row">
+        Roll back column to the previous version
+      </button>
+      <button class="btn" style="font-size: 1rem" id="prev-column">
+        Roll back row to the previous version
+      </button>
+      <button class="btn" style="font-size: 1rem" id="prev-canvas">
+        Roll back entire software to the previous version
+      </button>
+      
+        <button class="btn" style="font-size: 1rem" id="next-block">
+          Update block to the next version
+        </button>
+        <button class="btn" style="font-size: 1rem" id="next-row">
+          Update column to the next version
+        </button>
+        <button class="btn" style="font-size: 1rem" id="next-column">
+          Update row to the next version
+        </button>
+        <button class="btn" style="font-size: 1rem" id="next-canvas">
+          Update entire software to the next version
+        </button>
+      </section>
     </div>
-    <div class="standard-dialog center scale-down" style="width:30rem; margin: auto; margin-top: 20vh;">
-      <h4 class="dialog-text">This project was developed by Ray Xia with help from Lucas Drummond in Advance Interaction in the Spring of 2024. <br> CSS Library credit to <a href="https://github.com/sakofchit/system.css">Sajifcgut</a>.</h4>
-      <p class="dialog-text">&copy; Ray Xia </p>
-    </div>
-  
+
     <script src="script.js"></script>
   </body>
 </html>
