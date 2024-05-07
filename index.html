@@ -21,8 +21,8 @@
           <button class="btn btn-default" id="powerpoint-button">
             PowerPoint
           </button>
-          <button class="btn" disabled id="word-button">Word</button>
-          <button class="btn" disabled id="excel-button">Excel</button>! Click to
+          <button class="btn" id="word-button">Word</button>
+          <button class="btn" id="excel-button">Excel</button>! Click to
           navigate around.</span
         >
       </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="separator"></div>
 
-      <div class="modeless-dialog" id="menu-text" style="font-size: 0.8rem">
+      <div class="modeless-dialog" id="menu-text" style="height: 140px; font-size: 0.8rem">
         Error. Click on a block to try again.
       </div>
       <section
@@ -75,33 +75,35 @@
         id="btn-wrap"
       >
       
-        <ul role="menu" style="font-size: 1.2rem;">
+        <ul role="menu" id="menu-update" style="font-size: 1.2rem;">
         
           <li role="menu-item">
-            <a id="next-block">Update block to the next version</a>
+            <a id="next-block">Update Block</a>
           </li>
           <li role="menu-item">
-            <a id="next-row" style="display: none;">Update column to the next version</a>
-          </li>
-          <li role="menu-item">
-            <a id="next-column" style="display: none;"> Update row to the next version</a>
+            <a id="next-row" style="display: none;">Update Column</a>
           </li>
           <li role="menu-item" class="divider">
+            <a id="next-column" style="display: none;"> Update Row </a>
+          </li>
+          <li role="menu-item">
             <a id="next-canvas" style="display: none;">
-              Update entire canvas to the next version</a>
+              Update Software</a>
+          </li>
+        </ul>
+        <ul role="menu" id="menu-roll-back" style="visibility: hidden; font-size: 1.2rem;">
+          <li role="menu-item">
+            <a id="prev-block" style="display: none;">Roll Back Block</a>
           </li>
           <li role="menu-item">
-            <a id="prev-block" style="display: none;">Roll back block to the previous version</a>
+            <a id="prev-row" style="display: none;">Roll Back Column</a>
+          </li>
+          <li role="menu-item" class="divider">
+            <a id="prev-column" style="display: none;"> Roll Back Row</a>
           </li>
           <li role="menu-item">
-            <a id="prev-row" style="display: none;">Roll back column to the previous version</a>
-          </li>
-          <li role="menu-item">
-            <a id="prev-column" style="display: none;"> Roll back row to the previous version</a>
-          </li>
-          <li role="menu-item" >
             <a id="prev-canvas" style="display: none;">
-              Roll back software to the previous version</a>
+              Roll Back Software</a>
           </li>
         </ul>
       </section>
