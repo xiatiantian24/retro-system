@@ -21,11 +21,12 @@ const nextCanvasButton = document.getElementById("next-canvas");
 const menuUpdate = document.getElementById("menu-update");
 const menuRollBack = document.getElementById("menu-roll-back");
 
-// Function to update currentDataSet based on button click
+//update data powepoint, doc, or excel data on click
 function updateCurrentDataSet(dataset) {
   currentDataSet = dataset;
 }
 
+// create image canvas with grid
 var Split = function () {
   this.splitElement = document.querySelector(".split");
   this.gridX = 16;
@@ -43,7 +44,8 @@ var Split = function () {
     while (this.splitElement.firstChild) {
       this.splitElement.removeChild(this.splitElement.firstChild);
     }
-
+    
+    //include x and y offset so that image tiles correctly
     for (var x = 0; x < this.gridX; x++) {
       for (var y = 0; y < this.gridY; y++) {
         var width = ((this.width / this.gridX) * 101) / this.width + "%",
@@ -63,7 +65,6 @@ var Split = function () {
         div.style.backgroundSize = this.width + "px";
         div.style.transitionDelay = x * this.delay + y * this.delay + "s";
 
-        // Set ID for each div in the format "div_x_y"
         var divName = "div_" + x + "_" + y;
         div.setAttribute("id", divName);
 
@@ -80,7 +81,7 @@ var Split = function () {
 
   this.createDivs();
 
-  // Function to activate a block
+  //activate a block
   this.toggleActive = function (div) {
     if (this.currentActiveDiv !== null && this.currentActiveDiv !== div) {
       this.currentActiveDiv.classList.remove("active");
@@ -96,13 +97,12 @@ var Split = function () {
       menuX -= 550; //special case for the first two columns from the right
     }
 
+    //display menu
     menu.style.left = menuX + "px";
     menu.style.top = menuY + "px";
 
-    // Get the URL index of the active div and update the global variable
     currentUrlIndex = parseInt(div.dataset.urlIndex) || 0;
 
-    // Update menu text based on the URL index
     this.updateMenuText(currentUrlIndex);
 
     if (div.classList.contains("active")) {
@@ -115,7 +115,7 @@ var Split = function () {
       menuRollBack.style.visibility = "hidden";
     }
   };
-
+//close menu
   this.closeMenu = function () {
     var self = this;
     var closeButton = menu.querySelector(".close");
@@ -131,7 +131,7 @@ var Split = function () {
 
   this.closeMenu();
 
-  // Function to initialize the current dataset based on the global variable
+  //initialize current dataset based on global variable
   this.initializeDataSet = function () {
     if (currentDataSet === "powerpoint") {
       this.imageUrls = [
@@ -179,7 +179,7 @@ var Split = function () {
     menuRollBack.style.visibility = "hidden";
   };
 
-  // Function to update menu text based on currentDataSet
+  //update menu text based on the software selected
   this.updateMenuText = function (index) {
     var menuText = document.getElementById("menu-text");
     if (currentDataSet === "powerpoint") {
@@ -263,7 +263,7 @@ var Split = function () {
     }
   };
 
-  // Function to update background image of active div
+  //update image inside the active block
   this.updateActiveDivBackground = function (direction) {
     var activeDiv = document.querySelector(".active");
     if (activeDiv) {
@@ -286,7 +286,7 @@ var Split = function () {
       this.updateMenuText(newIndex);
     }
 
-    // Function to update entire row to the next or previous version
+    //update entire row to the next or previous version
     this.updateRow = function (direction) {
       var activeDiv = document.querySelector(".active");
       if (activeDiv) {
@@ -345,7 +345,7 @@ var Split = function () {
       }
     };
 
-    // Function to update entire column to the next or previous version
+    //update entire column to the next or previous version
     this.updateColumn = function (direction) {
       var activeDiv = document.querySelector(".active");
       if (activeDiv) {
@@ -404,7 +404,7 @@ var Split = function () {
       }
     };
 
-    // Function to update entire canvas to the next or previous version
+    //update entire canvas to the next or previous version
     this.updateCanvas = function (direction) {
       var divs = document.querySelectorAll(".split > div");
       var imageUrls = Array.from(divs, function (div) {
@@ -456,14 +456,14 @@ var Split = function () {
       this.updateMenuText(newIndex);
     };
 
-    // Function to check button visibility based on image URL of blocks
+    //check button visibility based on first/last version of the software
     this.checkButtonVisibility = function () {
       var activeDiv = document.querySelector(".active");
       if (activeDiv) {
         var currentImageUrl = activeDiv.style.backgroundImage.split('"')[1];
         var currentIndex = this.imageUrls.indexOf(currentImageUrl);
 
-        // Hide/show previous buttons
+        // hide/show previous buttons
         if (currentIndex === -1 || currentIndex === 0) {
           prevBlockButton.style.display = "none";
           prevRowButton.style.display = "none";
@@ -478,7 +478,7 @@ var Split = function () {
           menuRollBack.style.visibility = "visible";
         }
 
-        // Hide/show next buttons
+        // hide/show next buttons
         if (currentIndex === -1 || currentIndex === this.imageUrls.length - 1) {
           nextBlockButton.style.display = "none";
           nextRowButton.style.display = "none";
@@ -542,8 +542,8 @@ nextCanvasButton.addEventListener("click", function () {
   loadSplit.checkButtonVisibility();
 });
 
-//event listener DOMContentloaded = html finishes loading
-//event listener load = everything finishes loading (except lazy, lay is not considered
+//notes: event listener DOMContentloaded = html finishes loading
+//notes: event listener load = everything finishes loading (except lazy, lay is not considered
 
 powerpointButton.addEventListener("click", function () {
   wordButton.classList.remove("btn-default");
